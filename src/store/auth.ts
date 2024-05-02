@@ -42,6 +42,14 @@ const useAuthStore = create(() => ({
       console.error(err);
     }
   },
+  forgotModalPassword: async (payload: any) => {
+    try {
+      const response = await http.post("/auth/verify-forgot-password", payload);
+      return response      
+    } catch (err) {
+      console.error(err);
+    }
+  },
 }));
 
 export default useAuthStore;

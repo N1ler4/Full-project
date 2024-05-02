@@ -1,31 +1,23 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider
-} from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import App from "../App";
-import { Home, About, Service, Contact, ErrorPage  , SignIn , SignUp , Restore} from "@pages";
+import { Restore, SignIn, SignUp, Home, Users, Settings, Orders, Services, SMS } from "@pages";
+import { MainLayout } from "@layout";
 
-
-
-const index = () => {
-    
-
-
+const Index = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<App />}>
-          <Route index element={<SignIn/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="restore" element={<Restore/>}/>
-          <Route path="/main/*" element={<Home />} >
-          <Route path="about" element={<About />} />
-          <Route path="service" element={<Service />} />
-          <Route path="contact" element={<Contact />} />
-          </Route>
-
-          <Route path="*" element={<ErrorPage />} />
+        <Route index element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="restore" element={<Restore />} />
+        <Route path="/main/*" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="users" element={<Users />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="services" element={<Services />} />
+          <Route path="sms" element={<SMS />} />
+        </Route>
       </Route>
     )
   );
@@ -33,4 +25,4 @@ const index = () => {
   return <RouterProvider router={router} />;
 };
 
-export default index;
+export default Index;

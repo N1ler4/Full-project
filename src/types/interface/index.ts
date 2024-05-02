@@ -80,8 +80,17 @@ export interface FormData2 {
 
 export interface FormDataModal{
   code: string,
-  email: any
+  email: string
 }
 export interface FormData3 {
   email: string;
+}
+export interface FormDataForgotModal extends FormData3{
+  code:string,
+  password:string
+}
+export interface Route {
+  path: string;
+  name: string;
+  icon: JSX.Element;
 }

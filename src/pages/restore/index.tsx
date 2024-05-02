@@ -1,12 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { FormData3 } from "@interface";
+import { FormData3, FormDataForgotModal } from "@interface";
 import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
 import useAuthStore from "../../store/auth";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDataFromCookie } from "../../utils/tokenService";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,8 +35,29 @@ const index = () => {
   const initialValues: FormData3 = {
     email: "",
   };
+  const emailValueFromCookie = getDataFromCookie("email") || "";
+
+  const [emailValue] = useState<string>(emailValueFromCookie);
+
+  const initialValuesModal: FormDataForgotModal = {
+    code: "",
+    email: emailValue || "",
+    password: "",
+  };
   const schema = Yup.object().shape({
     email: Yup.string().min(4, "Too Short!").required("Required"),
+  });
+  const schemaForgotModal = Yup.object().shape({
+    code: Yup.string()
+      .min(6, "Too Short!")
+      .max(6, "Too Long!")
+      .required("Required"),
+    password: Yup.string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+        "Password must be at least 6 characters long and contain at least one uppercase and one lowercase letter"
+      )
+      .required("Password is required"),
   });
   const handleSubmit = async (values: FormData3) => {
     try {
@@ -43,6 +65,17 @@ const index = () => {
       const res: any = await forgotPassword(values);
       if (res.status === 200) {
         handleOpen();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleForgotSubmitModal = async (values : FormDataForgotModal) => {
+    try {
+      await schemaForgotModal.validate(values, { abortEarly: false });
+      const res: any = await forgotPassword(values);
+      if (res.status === 200) {
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
@@ -94,10 +127,34 @@ const index = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h1 className="text-[34px] mb-4">Kod emailga yuborildi</h1>
-          <button onClick={backToLogin} className="bg-blue-400 p-4">
-            Davom Etish
-          </button>
+          <h1 className="text-[34px] mb-4">Forgot Password</h1>
+
+          <Formik
+            initialValues={initialValuesModal}
+            validationSchema={schemaForgotModal}
+            onSubmit={handleForgotSubmitModal}
+          >
+            <Form className="flex flex-col gap-3">
+              <Field
+                name="code"
+                as={TextField}
+                label="Code"
+                type="code"
+                size="small"
+              />
+              <Field
+                name="password"
+                as={TextField}
+                label="New Password"
+                type="password"
+                size="small"
+              />
+              <Button variant="contained" type="submit">
+                {" "}
+                Confirm
+              </Button>
+            </Form>
+          </Formik>
         </Box>
       </Modal>
     </div>

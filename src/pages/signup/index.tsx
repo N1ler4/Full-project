@@ -33,7 +33,7 @@ const Index = () => {
   const [emailValue, ] = useState<string>(emailValueFromCookie);
 
   const initialValues: FormData = {
-    email: emailValue,
+    email: "",
     password: "",
     full_name: "",
     phone_number: "",

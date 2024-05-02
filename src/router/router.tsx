@@ -1,47 +1,47 @@
-import {
-  Home,
-  About,
-  Service,
-  Contact,
-  ErrorPage,
-  Blog,
-  SignIn,
-  SignUp,
-} from "@pages";
+import HomeIcon from '@mui/icons-material/Home';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import GroupIcon from '@mui/icons-material/Group';
+import SmsIcon from '@mui/icons-material/Sms';
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import SettingsIcon from '@mui/icons-material/Settings';
 
-const router = [
-  {
-    path: "/login",
-    element: <SignIn />,
-  },
-  {
-    path: "/",
-    element: <SignUp />,
-  },
+interface Route  {
+  path: string,
+  content: string,
+  icon: React.ReactElement
+}
+
+const router : Route[] = [
   {
     path: "/main",
-    element: <Home />,
+    content: "Asosiy",
+    icon: <HomeIcon/>
   },
   {
-    path: "/about",
-    element: <About />,
+    path: "/main/orders",
+    content: "Buyurtmalar",
+    icon: <LocalOfferIcon/>
   },
   {
-    path: "/service",
-    element: <Service />,
+    path: "/main/users",
+    content: "Mijozlar",
+    icon: <GroupIcon/>
   },
   {
-    path: "/contact",
-    element: <Contact />,
+    path: "/main/sms",
+    content: "Mijozlar",
+    icon: <SmsIcon/>
   },
 
   {
-    path: "/blog",
-    element: <Blog />,
+    path: "/main/services",
+    content: "Xizmatlar",
+    icon: <ElectricalServicesIcon/>
   },
   {
-    path: "*",
-    element: <ErrorPage />,
+    path: "/main/settings",
+    content: "Sozlamalar",
+    icon: <SettingsIcon/>
   },
 ];
 
